@@ -16,6 +16,8 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"os"
+	"runtime"
 
 	elastic "github.com/olivere/elastic/v6"
 )
@@ -32,18 +34,21 @@ func main() {
 		*url = "http://127.0.0.1:9200"
 	}
 
+	fmt.Printf("Go version is %s\n", runtime.Version())
+
 	// Create an Elasticsearch client
+	fmt.Print("Connecting to Elasticsearch ")
 	client, err := elastic.NewClient(elastic.SetURL(*url), elastic.SetSniff(*sniff))
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("failed: %v", err)
+		os.Exit(1)
 	}
-
-	// Just a status message
-	fmt.Println("Connection succeeded")
+	fmt.Print("succeeded ")
 
 	version, err := client.ElasticsearchVersion(*url)
 	if err != nil {
-		log.Fatal(err)
+		fmt.Printf("but couldn't retrieve version: %v", err)
+		os.Exit(1)
 	}
-	fmt.Printf("Elasticsearch version %s\n", version)
+	fmt.Printf("and we're talking to version %s\n", version)
 }
