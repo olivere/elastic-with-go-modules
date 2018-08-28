@@ -1,5 +1,7 @@
 # Using Elastic with Go modules
 
+**This repository is deprecated. It no longer works with v6.2.2 which reverted Go modules support until tooling is ready for e.g. dep.**
+
 Go 1.11 comes with modules support. This repository is a testbed
 for modules support.
 
